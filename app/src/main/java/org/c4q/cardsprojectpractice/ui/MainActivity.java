@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -12,6 +13,7 @@ import org.c4q.cardsprojectpractice.R;
 import org.c4q.cardsprojectpractice.adapters.FeedCardsAdapter;
 import org.c4q.cardsprojectpractice.models.CardData;
 import org.c4q.cardsprojectpractice.models.TestData;
+import org.c4q.cardsprojectpractice.ui.helpers.SimpleItemTouchHelperCallback;
 
 import java.util.List;
 
@@ -33,9 +35,12 @@ public class MainActivity extends Activity {
 
         List<CardData> cardDataList = TestData.getTestData();
         feedCardsAdapter.setCardDataList(cardDataList);
-        feedCardsAdapter.notifyDataSetChanged();
+//        feedCardsAdapter.notifyDataSetChanged();
 
-
+        ItemTouchHelper.Callback callback =
+                new SimpleItemTouchHelperCallback(feedCardsAdapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(rvFeedCards);
     }
 
     @Override
