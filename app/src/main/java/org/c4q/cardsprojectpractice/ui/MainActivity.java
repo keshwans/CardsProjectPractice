@@ -34,6 +34,7 @@ public class MainActivity extends Activity {
         rvFeedCards.setAdapter(feedCardsAdapter);
 
         List<CardData> cardDataList = TestData.getTestData();
+
         feedCardsAdapter.setCardDataList(cardDataList);
 //        feedCardsAdapter.notifyDataSetChanged();
 

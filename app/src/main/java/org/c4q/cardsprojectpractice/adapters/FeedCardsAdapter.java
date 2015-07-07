@@ -6,6 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.c4q.cardsprojectpractice.R;
@@ -24,6 +27,8 @@ import java.util.List;
  */
 public class FeedCardsAdapter extends RecyclerView.Adapter<FeedCardsAdapter.CardViewHolder>
         implements ItemTouchHelperAdapter {
+
+
 
     /**
      * Listener for manual initiation of a drag.
@@ -57,15 +62,15 @@ public class FeedCardsAdapter extends RecyclerView.Adapter<FeedCardsAdapter.Card
     public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
 
-            case 1:
-                View weatherCard = LayoutInflater.from(parent.getContext()).inflate(R.layout.weather_card, parent, false);
-                WeatherCardViewHolder weatherCardViewHolder = new WeatherCardViewHolder(weatherCard);
-                return weatherCardViewHolder;
+            case CardData.CARD_SEQ_HOSHIKO:
+                View hoshikoCard = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_hoshiko, parent, false);
+                CardViewHolder hoshikoCardViewHolder = new CardViewHolder(hoshikoCard);
+                return hoshikoCardViewHolder;
 
-            case 2:
-                View musicCard = LayoutInflater.from(parent.getContext()).inflate(R.layout.music_card, parent, false);
-                MusicCardViewHolder musicCardViewHolder = new MusicCardViewHolder(musicCard);
-                return musicCardViewHolder;
+            case CardData.CARD_SEQ_LUKE:
+                View lukeCard = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_luke, parent, false);
+                CardViewHolder lukeCardViewHolder = new CardViewHolder(lukeCard);
+                return lukeCardViewHolder;
 
             default:
                 return null;
@@ -74,21 +79,7 @@ public class FeedCardsAdapter extends RecyclerView.Adapter<FeedCardsAdapter.Card
 
     @Override
     public void onBindViewHolder(CardViewHolder holder, int position) {
-        CardData cardData = cardDataList.get(position);
-        if (cardData instanceof WeatherData) {
-            WeatherData weatherData = (WeatherData) cardData;
-            WeatherCardViewHolder weatherCardViewHolder = (WeatherCardViewHolder) holder;
-
-            weatherCardViewHolder.tvTemperature.setText(weatherData.getTemperature());
-            weatherCardViewHolder.tvZipCode.setText(weatherData.getZip());
-
-        } else if (cardData instanceof MusicData) {
-            MusicData musicData = (MusicData) cardData;
-            MusicCardViewHolder musicCardViewHolder = (MusicCardViewHolder) holder;
-
-            musicCardViewHolder.tvArtist.setText(musicData.getArtist());
-            musicCardViewHolder.tvTitle.setText(musicData.getTitle());
-        }
+        return;
     }
 
     @Override
@@ -99,13 +90,7 @@ public class FeedCardsAdapter extends RecyclerView.Adapter<FeedCardsAdapter.Card
     @Override
     public int getItemViewType(int position) {
         CardData cardData = cardDataList.get(position);
-        if (cardData instanceof WeatherData) {
-            return 1;
-        }
-        if (cardData instanceof MusicData) {
-            return 2;
-        }
-        return -1;
+        return cardData.getStudentId();
     }
 
 
@@ -155,7 +140,7 @@ public class FeedCardsAdapter extends RecyclerView.Adapter<FeedCardsAdapter.Card
         }
     }
 
-    public static class MusicCardViewHolder extends CardViewHolder implements ItemTouchHelperViewHolder  {
+    public static class MusicCardViewHolder extends CardViewHolder implements ItemTouchHelperViewHolder {
         CardView cvMusicCard;
         TextView tvArtist;
         TextView tvTitle;
@@ -179,4 +164,33 @@ public class FeedCardsAdapter extends RecyclerView.Adapter<FeedCardsAdapter.Card
             itemView.setBackgroundColor(0);
         }
     }
+
+
+    public static class HoshikoCardViewHolder extends CardViewHolder implements ItemTouchHelperViewHolder {
+        CardView cvHoshikoCard;
+        TextView studentName;
+        TextView message;
+        ImageView photo;
+
+        public HoshikoCardViewHolder(View itemView) {
+            super(itemView);
+
+            this.cvHoshikoCard = (CardView) itemView.findViewById(R.id.hoshiko_cardview);
+            this.studentName = (TextView) cvHoshikoCard.findViewById(R.id.student_name);
+            this.message = (TextView) cvHoshikoCard.findViewById(R.id.message);
+            this.photo = (ImageView) cvHoshikoCard.findViewById(R.id.photo);
+        }
+
+        @Override
+        public void onItemSelected() {
+            itemView.setBackgroundColor(Color.LTGRAY);
+        }
+
+
+        @Override
+        public void onItemClear() {
+            itemView.setBackgroundColor(0);
+        }
+    }
+
 }
